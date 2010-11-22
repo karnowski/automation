@@ -1,0 +1,27 @@
+#!/usr/bin/env ruby
+
+unless ARGV[0]
+  puts "Usage: albumadd artist-directory"
+  exit 1
+end
+
+source = File.expand_path(ARGV[0])
+
+unless File.exist?(source)
+  puts "Cannot find directory: #{source}"
+  exit 2
+end
+
+artist_name = File.basename(source)
+# destination = "/Volumes/carbonite/mp3s/#{artist_name}"
+destination = "/Users/larry/src/karnowski/music/junk/#{artist_name}"
+
+puts "== Copying =="
+puts "from: #{source}"
+puts "to: #{destination}"
+puts "============="
+
+#system "rsync  -cav --progress '#{source}/' '#{destination}/'"
+
+puts Dir.glob("#{source}/**/*.mp3").inspect
+  
