@@ -23,5 +23,7 @@ puts "============="
 
 #system "rsync  -cav --progress '#{source}/' '#{destination}/'"
 
-puts Dir.glob("#{source}/**/*.mp3").inspect
-  
+mp3s = Dir.glob("#{source}/**/*.mp3", File::FNM_CASEFOLD)
+m4as = Dir.glob("#{source}/**/*.m4[ap]", File::FNM_CASEFOLD)
+songs = (mp3s + m4as).sort
+puts songs.inspect
