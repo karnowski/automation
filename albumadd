@@ -26,8 +26,8 @@ unless File.exist?(source)
 end
 
 artist_name = File.basename(source)
-# destination = "/Volumes/carbonite/mp3s/#{artist_name}"
-destination = "/Users/larry/src/karnowski/music/junk/#{artist_name}"
+destination = "/Volumes/carbonite/mp3s/#{artist_name}"
+# destination = "/Users/larry/src/karnowski/music/junk/#{artist_name}"
 
 puts "== Copying =="
 puts "from: #{source}"
@@ -49,13 +49,13 @@ unless destination_songs.all? {|song| File.exist?(song) }
   exit 3
 end
 
-
+####
 
 framework 'Foundation'
 framework 'ScriptingBridge'
  
 ITunes = SBApplication.applicationWithBundleIdentifier("com.apple.itunes")
-load_bridge_support_file 'iTunes.bridgesupport'
+load_bridge_support_file(File.join(File.dirname(File.expand_path(__FILE__)), 'iTunes.bridgesupport'))
 ITunes.run
  
 class SBElementArray
@@ -76,6 +76,9 @@ end
 playlist = get_playlist("Listen At Least Once")
 
 destination_songs.each do |song|
+  puts "Adding #{song}..."  
   add_songs_to_playlist([song], playlist)
-  puts "Added #{song} to iTunes!"
+  # TODO: print out the ID3 tags for each song, and complain if they don't all have album, artist, song titles
 end
+
+puts "Done!"
