@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby
+#!/usr/local/bin/macruby
 
 unless ARGV[0]
   puts "Usage: albumadd artist-directory"
