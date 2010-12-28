@@ -1,17 +1,21 @@
 #!/usr/local/bin/macruby
 
+# Test case: path names have special characters, esp apostrophes and quotes
+# Test case: album is same name as the artist
+
 def destination_for_song(song, source, destination)
   basenames = []
 
   dirname, basename  = File.split(song)
-  while basename != File.basename(source)
-    basenames << basename
+  basenames << basename  
+  
+  while dirname != source
     dirname, basename = File.split(dirname)
+    basenames << basename
   end
   
   File.join(destination, *basenames.reverse)
 end
-
 
 unless ARGV[0]
   puts "Usage: albumadd artist-directory"
@@ -34,7 +38,7 @@ puts "from: #{source}"
 puts "to: #{destination}"
 puts "============="
 
-system "rsync  -cav --progress '#{source}/' '#{destination}/'"
+system "rsync  -cav --progress \"#{source}/\" \"#{destination}/\""
 
 source_songs = ["mp3", "m4[ap]"].inject([]) do |accum, glob|
   accum + Dir.glob("#{source}/**/*.#{glob}", File::FNM_CASEFOLD)
@@ -58,7 +62,7 @@ ITunes = SBApplication.applicationWithBundleIdentifier("com.apple.itunes")
 load_bridge_support_file(File.join(File.dirname(File.expand_path(__FILE__)), 'iTunes.bridgesupport'))
 ITunes.run
  
-class SBElementArray
+class SBElementArray  
   def [](value)
     self.objectWithName(value)
   end
